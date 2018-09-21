@@ -74,4 +74,8 @@ px, percent, em, rem
 
 
 ```
+## Example for margin
+![alt text](./img/margin.gif)
 
+# Example for padding
+![alt text](./img/position.gif)
