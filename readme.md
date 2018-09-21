@@ -1,11 +1,17 @@
-﻿# create css files
+﻿# Create css files
 `npm run build`
 
-customize output folder
+## customize output folder
 
-`npm run build --  --output='../css';`
+`npm run build --  --output='../css'`
 
-# usage of fluent-css
+## start sass watch (not active by default)
+`npm run build -- --watch`
+
+## deactivate sourcemaps default is true
+`npm run build -- --sourcemaps=false`
+
+# Usage of fluent-css
  
  ## to import fluent-css, simply copy this line in your scss stylesheet
 ```scss
@@ -23,7 +29,7 @@ customize output folder
 	...
 </div>
 
-<div class="margin-pc mb-14 ml-14-important">
+<div class="margin-percent mb-14 ml-14-important">
 	...
 </div>
 ```

@@ -4,7 +4,7 @@
   "description": "write fluent css",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "gulp sass:clean & gulp sass"
+    "build": "gulp sass"
   },
   "repository": {
     "type": "git",
