@@ -1,0 +1,19 @@
+﻿
+$count: 50;
+
+@for $i from -1 through $count {
+
+    $value: $i;
+
+    @if($i < 0) {
+        $value: #{"neg-"}#{str-slice(#{$value}, 2)}; // removve minus from classname
+    }
+
+    .z-index-#{$value} {
+        z-index: $i;
+    }
+
+    .z-index-#{$value}-important {
+        z-index: $i !important;
+    }
+}

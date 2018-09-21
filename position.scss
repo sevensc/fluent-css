@@ -1,0 +1,11 @@
+﻿$positions: (absolute, relative, fixed, initial);
+
+@each $position in $positions {
+    .position-#{$position} {
+        display: $position;
+    }
+
+        .position-#{$position}-important {
+            display: $position !important;
+        }
+}

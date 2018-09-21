@@ -1,0 +1,86 @@
+﻿// see readme.md for explanation
+$endings: (px, percent); //, em, rem, pt);
+$prefixes: (padding, margin);
+$directions: (top, right, bottom, left);
+$count: 64; // often used in estateSmart
+
+@each $prefix in $prefixes {
+    @each $ending in $endings {
+        .#{$prefix}-#{$ending} { // .padding-px or .margin-px/.padding-em or .margin-em ...
+            @for $i from -$count through $count {
+                $readableEnding: $ending;
+
+                @if($ending == "percent") { // px, pc (percent), em, rem, pt
+                    $readableEnding: '%';
+                }
+
+                $value: $i;
+                $firstPrefixLetter: str-slice($prefix, 1, 1); // m or p
+                @if($i < 0) {
+                    $value: #{"neg-"}#{str-slice(#{$value}, 2)}; // removve minus from classname
+                }
+
+                @if(($prefix != padding and $i < 0) or ($i >= 0)) { // negative values are invalid for padding
+                    &.#{$firstPrefixLetter}b-#{$value} { // .pb-1 or .pb-100 ...
+                        #{$prefix}-bottom: #{$i}$readableEnding; // padding-bottom: 1px or margin-bottom: 1px
+                    }
+
+                        &.#{$firstPrefixLetter}b-#{$value}-important { // .mb-1-important or .mb-100-important ...
+                            #{$prefix}-bottom: #{$i}$readableEnding !important;
+                        }
+
+                    &.#{$firstPrefixLetter}t-#{$value} {
+                        #{$prefix}-top: #{$i}$readableEnding;
+                    }
+
+                        &.#{$firstPrefixLetter}t-#{$value}-important {
+                            #{$prefix}-top: #{$i}$readableEnding !important;
+                        }
+
+                    &.#{$firstPrefixLetter}l-#{$value} {
+                        #{$prefix}-left: #{$i}$readableEnding;
+                    }
+
+                        &.#{$firstPrefixLetter}l-#{$value}-important {
+                            #{$prefix}-left: #{$i}$readableEnding !important;
+                        }
+
+                    &.#{$firstPrefixLetter}r-#{$value} {
+                        #{$prefix}-right: #{$i}$readableEnding;
+                    }
+
+                        &.#{$firstPrefixLetter}r-#{$value}-important {
+                            #{$prefix}-right: #{$i}$readableEnding !important;
+                        }
+                }
+            }
+        }
+    }
+}
+
+
+@each $ending in $endings {
+    @for $i from -$count through $count {
+
+        $readableEnding: $ending;
+
+        @if($ending == "pc") { // px, pc (percent), em, rem, pt
+            $readableEnding: %;
+        }
+
+        $value: $i;
+
+        @if($i < 0) {
+            $value: #{"neg-"}#{str-slice(#{$value}, 2)}; // removve minus from classname
+        }
+
+        .position-#{$ending} { // .position-px
+            @each $direction in $directions {
+                $d: str-slice($direction, 1, 1); // p
+                &.p#{$d}-#{$value} {
+                    #{$direction}: #{$i}$readableEnding; // .pr-20 -> right: 20;
+                }
+            }
+        }
+    }
+}
