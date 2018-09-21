@@ -2,10 +2,10 @@
 
 @each $position in $positions {
     .position-#{$position} {
-        display: $position;
+        position: $position;
     }
 
         .position-#{$position}-important {
-            display: $position !important;
+            position: $position !important;
         }
 }

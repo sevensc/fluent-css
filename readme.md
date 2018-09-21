@@ -1,14 +1,14 @@
-﻿# Create css files
+﻿## Create css files
 `npm run build`
 
-## customize output folder
+## Customize output folder
 
 `npm run build --  --output='../css'`
 
-## start sass watch (not active by default)
+## Start sass watch (not active by default)
 `npm run build -- --watch`
 
-## deactivate sourcemaps default is true
+## Deactivate sourcemaps default is true
 `npm run build -- --sourcemaps=false`
 
 # Usage of fluent-css
