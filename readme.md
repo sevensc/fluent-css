@@ -11,6 +11,18 @@
 ## Deactivate sourcemaps default is true
 `npm run build -- --sourcemaps=false`
 
+## Deactivate compression
+`npm run build -- --compress=false`
+
+## Build with gzip
+`npm run build -- --gzip`
+
+## change output filename
+`npm run build -- --filename=main.css`
+
+# Combine them!
+`npm run build -- --gzip --compress=false --souremap=false --ouput=../ filename=main.css`
+
 # Usage of fluent-css
  
  ## to import fluent-css, simply copy this line in your scss stylesheet

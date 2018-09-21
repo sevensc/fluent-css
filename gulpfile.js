@@ -3,31 +3,56 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var clean = require('gulp-clean');
+var gzip = require('gulp-gzip');
+var gulpif = require('gulp-if');
 var sourcemaps = require('gulp-sourcemaps');
 var log = require('fancy-log');
+var rename = require('gulp-rename');
 
 gulp.task('sass', ['sass:clean'], function () {
     var output = getPath(process.argv);
     var watch = getParam("watch");
     var maps = getParam("sourcemaps");
+    var zip = getParam("gzip");
+    var compress = getParam("compress");
+    var filename = getParam("filename");
+
+    if (!filename) {
+        filename = "fluent-css.css";
+    }
+    else if (filename.indexOf(".css") == -1) {
+        filename = filename + ".css";
+    }
+
+    log(filename);
+
+    if (compress != "false") {
+        compress = "compressed";
+    }
 
     if (watch) {
         gulp.start("sass:watch")
     }
-    log(maps);
-    if (maps == 'false') {
-        return gulp.src('fluent-css.scss')
-            .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
-            .pipe(gulp.dest(output));
+
+    gulp.src('fluent-css.scss')
+        .pipe(gulpif(maps != "false", sourcemaps.init()))
+        .pipe(sass({ outputStyle: compress }).on('error', sass.logError))
+        .pipe(rename(filename))
+        .pipe(gulpif(maps != "false", sourcemaps.write(output)))
+        .pipe(gulp.dest(output));
+
+    if (!zip) {
+        return;
     }
 
     return gulp.src('fluent-css.scss')
-        .pipe(sourcemaps.init())
-        .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
-        .pipe(sourcemaps.write(output))
+        .pipe(gulpif(maps != "false", sourcemaps.init()))
+        .pipe(sass({ outputStyle: compress }).on('error', sass.logError))
+        .pipe(rename(filename))
+        .pipe(gulpif(maps != "false", sourcemaps.write(output)))
+        .pipe(gulpif(zip, gzip()))
         .pipe(gulp.dest(output));
 });
-
 
 gulp.task('sass:clean', function () {
     var output = getPath(process.argv);
