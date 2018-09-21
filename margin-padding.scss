@@ -10,8 +10,8 @@ $count: 64; // often used in estateSmart
             @for $i from -$count through $count {
                 $readableEnding: $ending;
 
-                @if($ending == "percent") { // px, pc (percent), em, rem, pt
-                    $readableEnding: '%';
+                @if($ending == "percent") { // px, percent, em, rem, pt
+                    $readableEnding: %;
                 }
 
                 $value: $i;
@@ -64,7 +64,7 @@ $count: 64; // often used in estateSmart
 
         $readableEnding: $ending;
 
-        @if($ending == "pc") { // px, pc (percent), em, rem, pt
+        @if($ending == "percent") { // px, pc (percent), em, rem, pt
             $readableEnding: %;
         }
 
@@ -80,6 +80,10 @@ $count: 64; // often used in estateSmart
                 &.p#{$d}-#{$value} {
                     #{$direction}: #{$i}$readableEnding; // .pr-20 -> right: 20;
                 }
+
+                    &.p#{$d}-#{$value}-important {
+                        #{$direction}: #{$i}$readableEnding !important;
+                    }
             }
         }
     }
