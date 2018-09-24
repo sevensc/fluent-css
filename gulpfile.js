@@ -10,7 +10,7 @@ var log = require('fancy-log');
 var rename = require('gulp-rename');
 
 gulp.task('sass', ['sass:clean'], function () {
-    var output = getPath(process.argv);
+    var output = getPath();
     var watch = getParam("watch");
     var maps = getParam("sourcemaps");
     var zip = getParam("gzip");
@@ -61,7 +61,7 @@ gulp.task('sass:clean', function () {
 
 gulp.task('sass:watch', () => gulp.watch('./**/*.scss', ['sass:clean', 'sass']));
 
-var getPath = function (cmdParams) {
+var getPath = function () {
     var output = getParam('output');
     if (!output) {
         return './'
