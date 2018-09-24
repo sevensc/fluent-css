@@ -1,0 +1,9 @@
+$positions: (
+    static,
+    absolute,
+    fixed,
+    relative,
+    sticky, // Not supported in IE/Edge 15 or earlier. Supported in Safari from version 6.1 with a -webkit- prefix.
+    initial,
+    inherit
+);

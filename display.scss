@@ -1,4 +1,4 @@
-﻿$displays: (inline, block, inline-block, none);
+﻿@import 'variables/displays';
 
 @each $display in $displays {
     .display-#{$display} {

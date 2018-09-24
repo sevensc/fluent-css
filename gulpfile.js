@@ -9,6 +9,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var log = require('fancy-log');
 var rename = require('gulp-rename');
 var concat = require('gulp-concat');
+var runSequence = require('run-sequence');
 
 gulp.task('sass', ['sass:clean'], function () {
     var output = getPath();
@@ -57,12 +58,17 @@ gulp.task('sass', ['sass:clean'], function () {
         .pipe(gulp.dest(output));
 });
 
-gulp.task('sass:clean', function () {
-    var output = getPath(process.argv);
-    return gulp.src(output + '*.css*').pipe(clean({ read: false, force: true }));
-})
+gulp.task('sass:clean', function () {    
+    var shouldclean = getParam("clean");
+    if(shouldclean == "false"){
+        return;
+    }
 
-gulp.task('sass:watch', () => gulp.watch('./**/*.scss', ['sass:clean', 'sass']));
+    var output = getPath();
+    return gulp.src(output + '*.css*').pipe(clean({ read: false, force: true }));
+});
+
+gulp.task('sass:watch', () => gulp.watch('./**/*.scss', ['sass']));
 
 var getPackages = function () {
     var packages = getParam("packages");

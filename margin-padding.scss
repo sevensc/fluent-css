@@ -1,16 +1,16 @@
-﻿@import 'variables/endings';
+﻿@import 'variables/units';
 @import 'variables/count';
 $prefixes: (padding, margin);
 $directions: (top, right, bottom, left);
 
 @each $prefix in $prefixes {
-    @each $ending in $endings {
-        .#{$prefix}-#{$ending} { // .padding-px or .margin-px/.padding-em or .margin-em ...
+    @each $unit in $units {
+        .#{$prefix}-#{$unit} { // .padding-px or .margin-px/.padding-em or .margin-em ...
             @for $i from -$count through $count {
-                $readableEnding: $ending;
+                $readableUnit: $unit;
 
-                @if($ending == "percent") { // px, percent, em, rem, pt
-                    $readableEnding: '%';
+                @if($unit == "percent") { // px, percent, em, rem, pt
+                    $readableUnit: '%';
                 }
 
                 $value: $i;
@@ -21,35 +21,35 @@ $directions: (top, right, bottom, left);
 
                 @if(($prefix != padding and $i < 0) or ($i >= 0)) { // negative values are invalid for padding
                     &.#{$firstPrefixLetter}b-#{$value} { // .pb-1 or .pb-100 ...
-                        #{$prefix}-bottom: #{$i}#{$readableEnding} // padding-bottom: 1px or margin-bottom: 1px
+                        #{$prefix}-bottom: #{$i}#{$readableUnit} // padding-bottom: 1px or margin-bottom: 1px
                     }
 
                         &.#{$firstPrefixLetter}b-#{$value}-important { // .mb-1-important or .mb-100-important ...
-                            #{$prefix}-bottom: #{$i}#{$readableEnding} !important;
+                            #{$prefix}-bottom: #{$i}#{$readableUnit} !important;
                         }
 
                     &.#{$firstPrefixLetter}t-#{$value} {
-                        #{$prefix}-top: #{$i}#{$readableEnding};
+                        #{$prefix}-top: #{$i}#{$readableUnit};
                     }
 
                         &.#{$firstPrefixLetter}t-#{$value}-important {
-                            #{$prefix}-top: #{$i}#{$readableEnding} !important;
+                            #{$prefix}-top: #{$i}#{$readableUnit} !important;
                         }
 
                     &.#{$firstPrefixLetter}l-#{$value} {
-                        #{$prefix}-left: #{$i}#{$readableEnding};
+                        #{$prefix}-left: #{$i}#{$readableUnit};
                     }
 
                         &.#{$firstPrefixLetter}l-#{$value}-important {
-                            #{$prefix}-left: #{$i}#{$readableEnding} !important;
+                            #{$prefix}-left: #{$i}#{$readableUnit} !important;
                         }
 
                     &.#{$firstPrefixLetter}r-#{$value} {
-                        #{$prefix}-right: #{$i}#{$readableEnding};
+                        #{$prefix}-right: #{$i}#{$readableUnit};
                     }
 
                         &.#{$firstPrefixLetter}r-#{$value}-important {
-                            #{$prefix}-right: #{$i}#{$readableEnding} !important;
+                            #{$prefix}-right: #{$i}#{$readableUnit} !important;
                         }
                 }
             }

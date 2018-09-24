@@ -1,10 +1,13 @@
 {
   "name": "fluent-css",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "write fluent css",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "gulp sass"
+    "build": "gulp sass",
+    "clean": "gulp sass:clean",
+    "watch": "gulp sass:watch",
+    "gzip": "gulp sass --gzip"
   },
   "keywords": [
     "scss",

@@ -9,6 +9,9 @@
 ## Start sass watch (not active by default)
 `npm run build -- --watch`
 
+## Or just start watching (with all paramters e.g. --gzip)
+`npm run watch`
+
 ## Deactivate sourcemaps default is true
 `npm run build -- --sourcemaps=false`
 
@@ -18,22 +21,29 @@
 ## Build with gzip
 `npm run build -- --gzip`
 
-## change output filename
+## Or start gzipping (with all paramters e.g. --gzip)
+`npm run gzip -- --clean=false`
+
+## Change output filename
 `npm run build -- --filename=main.css`
+
+## Too much? Limit to the packages you need
+`npm run build -- --packages='display, position'`
+
+## Deactivate clean
+`npm run build -- --clean=false`
+
+## Or just clean up
+`npm run clean`
 
 # Combine them!
 `npm run build -- --gzip --compress=false --souremap=false --ouput=../ filename=main.css`
 
-# Usage of fluent-css
- 
+
+# Usage of fluent-css 
  ## to import fluent-css, simply copy this line in your scss stylesheet
 ```scss
 @import 'fluent-css'; // absolute path from your stylesheet e.g. -> ./sass/fluent-styles/fluent-styles;
-```
-
-## or import only the package you need
-```scss
-@import 'fluent-css/display';
 ```
 
 ## padding and margin
@@ -85,10 +95,6 @@ px, percent, em, rem
 - display.scss
 
 ```
-
-## Too much?
-### limit to the packages you need
-`npm run build -- --packages='display, position'`
 
 ## Example for margin
 ![alt text](./img/margin.gif)

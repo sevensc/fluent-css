@@ -1,5 +1,0 @@
-@import 'functions/merge';
-$endings: (em, px, percent, ex); // see recommendations https://gist.github.com/basham/2175a16ab7c60ce8e001
-$infrequent: (ch, ex, vw, vh, vmin, vmax);
-$notrecommended: (cm, mm, in, pt, pc);
-$allendings: merge($endings, $infrequent, $notrecommended); // #todo make editable with gulp command
