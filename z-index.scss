@@ -1,12 +1,8 @@
-﻿
-$count: 50;
-
+﻿@import 'variables/count';
 @for $i from -1 through $count {
-
     $value: $i;
-
     @if($i < 0) {
-        $value: #{"neg-"}#{str-slice(#{$value}, 2)}; // removve minus from classname
+        $value: #{"neg-"}#{str-slice(#{$value}, 2)}    
     }
 
     .z-index-#{$value} {

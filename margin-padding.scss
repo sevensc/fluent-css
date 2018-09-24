@@ -1,8 +1,7 @@
-﻿// see readme.md for explanation
-$endings: (px, percent); //, em, rem, pt);
+﻿@import 'variables/endings';
+@import 'variables/count';
 $prefixes: (padding, margin);
 $directions: (top, right, bottom, left);
-$count: 64; //#todo make editable
 
 @each $prefix in $prefixes {
     @each $ending in $endings {
@@ -11,7 +10,7 @@ $count: 64; //#todo make editable
                 $readableEnding: $ending;
 
                 @if($ending == "percent") { // px, percent, em, rem, pt
-                    $readableEnding: %;
+                    $readableEnding: '%';
                 }
 
                 $value: $i;
@@ -22,35 +21,35 @@ $count: 64; //#todo make editable
 
                 @if(($prefix != padding and $i < 0) or ($i >= 0)) { // negative values are invalid for padding
                     &.#{$firstPrefixLetter}b-#{$value} { // .pb-1 or .pb-100 ...
-                        #{$prefix}-bottom: #{$i}$readableEnding; // padding-bottom: 1px or margin-bottom: 1px
+                        #{$prefix}-bottom: #{$i}#{$readableEnding} // padding-bottom: 1px or margin-bottom: 1px
                     }
 
                         &.#{$firstPrefixLetter}b-#{$value}-important { // .mb-1-important or .mb-100-important ...
-                            #{$prefix}-bottom: #{$i}$readableEnding !important;
+                            #{$prefix}-bottom: #{$i}#{$readableEnding} !important;
                         }
 
                     &.#{$firstPrefixLetter}t-#{$value} {
-                        #{$prefix}-top: #{$i}$readableEnding;
+                        #{$prefix}-top: #{$i}#{$readableEnding};
                     }
 
                         &.#{$firstPrefixLetter}t-#{$value}-important {
-                            #{$prefix}-top: #{$i}$readableEnding !important;
+                            #{$prefix}-top: #{$i}#{$readableEnding} !important;
                         }
 
                     &.#{$firstPrefixLetter}l-#{$value} {
-                        #{$prefix}-left: #{$i}$readableEnding;
+                        #{$prefix}-left: #{$i}#{$readableEnding};
                     }
 
                         &.#{$firstPrefixLetter}l-#{$value}-important {
-                            #{$prefix}-left: #{$i}$readableEnding !important;
+                            #{$prefix}-left: #{$i}#{$readableEnding} !important;
                         }
 
                     &.#{$firstPrefixLetter}r-#{$value} {
-                        #{$prefix}-right: #{$i}$readableEnding;
+                        #{$prefix}-right: #{$i}#{$readableEnding};
                     }
 
                         &.#{$firstPrefixLetter}r-#{$value}-important {
-                            #{$prefix}-right: #{$i}$readableEnding !important;
+                            #{$prefix}-right: #{$i}#{$readableEnding} !important;
                         }
                 }
             }

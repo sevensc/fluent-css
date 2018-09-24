@@ -1,0 +1,9 @@
+@function merge($source, $lists...) {
+    @each $list in $lists {
+        @each $item in $list {
+            $source: append($source, $item);
+        }
+    }
+
+    @return $source;
+}
