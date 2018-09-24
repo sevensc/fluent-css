@@ -1,4 +1,7 @@
 ﻿$positions: (absolute, relative, fixed, initial);
+$endings: (px, percent); //, em, rem, pt);
+$directions: (top, right, bottom, left);
+$count: 64;
 
 @each $position in $positions {
     .position-#{$position} {
@@ -8,4 +11,35 @@
         .position-#{$position}-important {
             position: $position !important;
         }
+}
+
+
+@each $ending in $endings {
+    @for $i from -$count through $count {
+
+        $readableEnding: $ending;
+
+        @if($ending == "percent") { // px, pc (percent), em, rem, pt
+            $readableEnding: %;
+        }
+
+        $value: $i;
+
+        @if($i < 0) {
+            $value: #{"neg-"}#{str-slice(#{$value}, 2)}; // removve minus from classname
+        }
+
+        .position-#{$ending} { // .position-px
+            @each $direction in $directions {
+                $d: str-slice($direction, 1, 1); // p
+                &.p#{$d}-#{$value} {
+                    #{$direction}: #{$i}$readableEnding; // .pr-20 -> right: 20;
+                }
+
+                    &.p#{$d}-#{$value}-important {
+                        #{$direction}: #{$i}$readableEnding !important;
+                    }
+            }
+        }
+    }
 }

@@ -2,7 +2,7 @@
 $endings: (px, percent); //, em, rem, pt);
 $prefixes: (padding, margin);
 $directions: (top, right, bottom, left);
-$count: 64; // often used in estateSmart
+$count: 64; //#todo make editable
 
 @each $prefix in $prefixes {
     @each $ending in $endings {
@@ -53,37 +53,6 @@ $count: 64; // often used in estateSmart
                             #{$prefix}-right: #{$i}$readableEnding !important;
                         }
                 }
-            }
-        }
-    }
-}
-
-
-@each $ending in $endings {
-    @for $i from -$count through $count {
-
-        $readableEnding: $ending;
-
-        @if($ending == "percent") { // px, pc (percent), em, rem, pt
-            $readableEnding: %;
-        }
-
-        $value: $i;
-
-        @if($i < 0) {
-            $value: #{"neg-"}#{str-slice(#{$value}, 2)}; // removve minus from classname
-        }
-
-        .position-#{$ending} { // .position-px
-            @each $direction in $directions {
-                $d: str-slice($direction, 1, 1); // p
-                &.p#{$d}-#{$value} {
-                    #{$direction}: #{$i}$readableEnding; // .pr-20 -> right: 20;
-                }
-
-                    &.p#{$d}-#{$value}-important {
-                        #{$direction}: #{$i}$readableEnding !important;
-                    }
             }
         }
     }

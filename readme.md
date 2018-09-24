@@ -1,4 +1,5 @@
-﻿## Create css files
+﻿
+## Create css files
 `npm run build`
 
 ## Customize output folder
@@ -76,16 +77,19 @@ px, percent, em, rem
 </div>
 ```
 
-## Available classes
-
+## Packages
 ```scss
-
-.display
-.position
-.
-
+- margin-padding.scss,
+- position.scss,
+- z-index.scss,
+- display.scss
 
 ```
+
+## Too much?
+### limit to the packages you need
+`npm run build -- --packages='display, position'`
+
 ## Example for margin
 ![alt text](./img/margin.gif)
 

@@ -8,6 +8,7 @@ var gulpif = require('gulp-if');
 var sourcemaps = require('gulp-sourcemaps');
 var log = require('fancy-log');
 var rename = require('gulp-rename');
+var concat = require('gulp-concat');
 
 gulp.task('sass', ['sass:clean'], function () {
     var output = getPath();
@@ -24,8 +25,6 @@ gulp.task('sass', ['sass:clean'], function () {
         filename = filename + ".css";
     }
 
-    log(filename);
-
     if (compress != "false") {
         compress = "compressed";
     }
@@ -34,7 +33,10 @@ gulp.task('sass', ['sass:clean'], function () {
         gulp.start("sass:watch")
     }
 
-    gulp.src('fluent-css.scss')
+    var packagesArray = getPackages();
+
+    gulp.src(packagesArray)
+        .pipe(concat('concat.txt'))
         .pipe(gulpif(maps != "false", sourcemaps.init()))
         .pipe(sass({ outputStyle: compress }).on('error', sass.logError))
         .pipe(rename(filename))
@@ -45,12 +47,13 @@ gulp.task('sass', ['sass:clean'], function () {
         return;
     }
 
-    return gulp.src('fluent-css.scss')
+    return gulp.src(packagesArray)
+        .pipe(concat('concat.txt'))
         .pipe(gulpif(maps != "false", sourcemaps.init()))
         .pipe(sass({ outputStyle: compress }).on('error', sass.logError))
         .pipe(rename(filename))
         .pipe(gulpif(maps != "false", sourcemaps.write(output)))
-        .pipe(gulpif(zip, gzip()))
+        .pipe(gzip())
         .pipe(gulp.dest(output));
 });
 
@@ -60,6 +63,27 @@ gulp.task('sass:clean', function () {
 })
 
 gulp.task('sass:watch', () => gulp.watch('./**/*.scss', ['sass:clean', 'sass']));
+
+var getPackages = function () {
+    var packages = getParam("packages");
+
+    if (!packages) {
+        return ['fluent-css.scss']
+    }
+
+    var packagesArray = [];
+    var splitted = packages.split(',');
+    for (var i = 0; i < splitted.length; i++) {
+        var current = splitted[i].trim();
+        if (current.indexOf('.scss') < 0) {
+            current += '.scss';
+        }
+
+        packagesArray.push(current);
+    }
+
+    return packagesArray;
+}
 
 var getPath = function () {
     var output = getParam('output');
