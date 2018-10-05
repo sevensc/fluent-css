@@ -9,7 +9,6 @@ var sourcemaps = require('gulp-sourcemaps');
 var log = require('fancy-log');
 var rename = require('gulp-rename');
 var concat = require('gulp-concat');
-var runSequence = require('run-sequence');
 
 gulp.task('sass', ['sass:clean'], function () {
     var output = getPath();

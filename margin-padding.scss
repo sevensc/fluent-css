@@ -51,6 +51,14 @@ $directions: (top, right, bottom, left);
                         &.#{$firstPrefixLetter}r-#{$value}-important {
                             #{$prefix}-right: #{$i}#{$readableUnit} !important;
                         }
+
+                    &.#{$firstPrefixLetter}-#{$value} {
+                        #{$prefix}: #{$i}#{$readableUnit};
+                    }
+    
+                        &.#{$firstPrefixLetter}-#{$value}-important {
+                            #{$prefix}: #{$i}#{$readableUnit} !important;
+                        }
                 }
             }
         }
