@@ -19,10 +19,10 @@ gulp.task('sass', ['sass:clean'], function () {
     var filename = getParam("filename");
 
     if (!filename) {
-        filename = "fluent-css.css";
+        filename = "fluent-css.scss";
     }
-    else if (filename.indexOf(".css") == -1) {
-        filename = filename + ".css";
+    else if (filename.indexOf(".scss") == -1) {
+        filename = filename + ".scss";
     }
 
     if (compress != "false") {
@@ -34,13 +34,20 @@ gulp.task('sass', ['sass:clean'], function () {
     }
 
     var packagesArray = getPackages();
+    var sourcemapsOutput = output;
+    if(sourcemapsOutput.indexOf('./') == 0) {
+        sourcemapsOutput = "." + sourcemapsOutput;
+    }
+    else if(sourcemapsOutput.indexOf('../') == 0) {
+        sourcemapsOutput = "./" + output.replace("../", "");
+    }
 
     gulp.src(packagesArray)
         .pipe(concat('concat.txt'))
         .pipe(gulpif(maps != "false", sourcemaps.init()))
         .pipe(sass({ outputStyle: compress }).on('error', sass.logError))
         .pipe(rename(filename))
-        .pipe(gulpif(maps != "false", sourcemaps.write(output)))
+        .pipe(gulpif(maps != "false", sourcemaps.write(sourcemapsOutput)))
         .pipe(gulp.dest(output));
 
     if (!zip) {
@@ -52,7 +59,7 @@ gulp.task('sass', ['sass:clean'], function () {
         .pipe(gulpif(maps != "false", sourcemaps.init()))
         .pipe(sass({ outputStyle: compress }).on('error', sass.logError))
         .pipe(rename(filename))
-        .pipe(gulpif(maps != "false", sourcemaps.write(output)))
+        .pipe(gulpif(maps != "false", sourcemaps.write(sourcemapsOutput)))
         .pipe(gzip())
         .pipe(gulp.dest(output));
 });
@@ -64,7 +71,7 @@ gulp.task('sass:clean', function () {
     }
 
     var output = getPath();
-    return gulp.src(output + '*.css*').pipe(clean({ read: false, force: true }));
+    return gulp.src(output + '*.scss*').pipe(clean({ read: false, force: true }));
 });
 
 gulp.task('sass:watch', () => gulp.watch('./**/*.scss', ['sass']));
@@ -93,7 +100,7 @@ var getPackages = function () {
 var getPath = function () {
     var output = getParam('output');
     if (!output) {
-        return './'
+        return './dist'
     }
     return output;
 }

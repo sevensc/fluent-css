@@ -1,7 +1,7 @@
 ﻿@import 'variables/units';
 @import 'variables/count';
+@import 'variables/directions';
 $prefixes: (padding, margin);
-$directions: (top, right, bottom, left);
 
 @each $prefix in $prefixes {
     @each $unit in $units {

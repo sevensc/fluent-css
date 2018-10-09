@@ -74,13 +74,6 @@
 }
 ```
 
-## Available units:
-```
-px, percent, em, rem
-```
-
-# everything else is fluent
-
 ```html
 <div class="display-inline-block">
 	<!-- easy! right? -->
@@ -93,10 +86,9 @@ px, percent, em, rem
 - position.scss,
 - z-index.scss,
 - display.scss
-
 ```
 
-## Example for margin
+# Example for margin
 ![alt text](./img/margin.gif)
 
 # Example for padding
