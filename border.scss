@@ -16,41 +16,41 @@ $borderstyles:
 
 // without directions
 @for $i from 1 through $count {
-    @each $style in $borderstyles { //top, left ..
-            @each $unit in $units { // px
-                .border-#{$i} {  // border-left-solid-1-green
-                    border: $i#{$unit};
-                }   
+    @each $unit in $units { // px
+        .border-#{$i} {  // border-1
+            border: $i#{$unit};
+        }   
 
-                @each $color in $colornames { // red, green, blue...
-
-                    .border-#{$i}-#{$color} {  // border-left-solid-1-green
-                        border: $i#{$unit} $color;
-                    }
+            @each $color in $colornames { // red, green, blue...
+                .border-#{$i}-#{$color} {  // border-left-solid-1-green
+                    border: $i#{$unit} $color;
+                }
     
+                @each $style in $borderstyles { //top, left ..
                     .border-#{$style}-#{$i}-#{$color} {  // border-left-solid-1-green
                         border: $style $i#{$unit} $color;
                     }                
-                }            
-            
-        
-                // with directions
-                @each $direction in $directions { //top, left ...  
-                    .border-#{$direction}-#{$i} {  // border-left-solid-1-green
-                        border-#{$direction}: $i#{$unit};
-                    }
+                }        
+            }
 
-                    @each $color in $colornames { // red, green, blue...    
-                        .border-#{$direction}-#{$i}-#{$color} {  // border-left-solid-1-green
-                            border-#{$direction}: $i#{$unit} $color;
-                        }   
+                // with directions
+        @each $direction in $directions { //top, left ...  
+            .border-#{$direction}-#{$i} {  // border-left-solid-1-green
+                border-#{$direction}: $i#{$unit};
+            }
+
+            @each $color in $colornames { // red, green, blue...    
+                .border-#{$direction}-#{$i}-#{$color} {  // border-left-solid-1-green
+                    border-#{$direction}: $i#{$unit} $color;
+                }   
                         
-                        .border-#{$direction}-#{$style}-#{$i}-#{$color} {  // border-left-solid-1-green
-                            border-#{$direction}: $style $i#{$unit} $color;                        
-                        }
+                @each $style in $borderstyles { //top, left ..
+                    .border-#{$direction}-#{$style}-#{$i}-#{$color} {  // border-left-solid-1-green
+                        border-#{$direction}: $style $i#{$unit} $color;                        
                     }
                 }
-        }
+            }
+        }        
     }
 }
 
