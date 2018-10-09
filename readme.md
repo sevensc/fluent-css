@@ -21,11 +21,16 @@
 ## Build with gzip
 `npm run build -- --gzip`
 
-## Or start gzipping (with all paramters e.g. --gzip)
+## Or start gzipping (with all paramters e.g. --package)
 `npm run gzip -- --clean=false`
 
 ## Change output filename
 `npm run build -- --filename=main.css`
+
+`npm run build -- --filename=main.scss`
+
+`npm run build -- --filename=main`
+### adding `.css` will only create css files. Adding `.scss` will only create scss files, filename without ending will create both, scss and css files.
 
 ## Too much? Limit to the packages you need
 `npm run build -- --packages='display, position'`

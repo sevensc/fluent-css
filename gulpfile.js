@@ -18,11 +18,15 @@ gulp.task('sass', ['sass:clean'], function () {
     var compress = getParam("compress");
     var filename = getParam("filename");
 
+    var endings = [".css", ".scss"];
     if (!filename) {
-        filename = "fluent-css.scss";
+        filename = "fluent-css";
     }
-    else if (filename.indexOf(".scss") == -1) {
-        filename = filename + ".scss";
+    else if (filename.indexOf(".scss") > -1) {
+        endings = [".scss"];
+    }
+    else if (filename.indexOf(".css") > -1) {
+        endings = [".css"];
     }
 
     if (compress != "false") {
@@ -35,38 +39,43 @@ gulp.task('sass', ['sass:clean'], function () {
 
     var packagesArray = getPackages();
     var sourcemapsOutput = output;
-    if(sourcemapsOutput.indexOf('./') == 0) {
+    if (sourcemapsOutput.indexOf('./') == 0) {
         sourcemapsOutput = "." + sourcemapsOutput;
     }
-    else if(sourcemapsOutput.indexOf('../') == 0) {
+    else if (sourcemapsOutput.indexOf('../') == 0) {
         sourcemapsOutput = "./" + output.replace("../", "");
     }
 
-    gulp.src(packagesArray)
-        .pipe(concat('concat.txt'))
-        .pipe(gulpif(maps != "false", sourcemaps.init()))
-        .pipe(sass({ outputStyle: compress }).on('error', sass.logError))
-        .pipe(rename(filename))
-        .pipe(gulpif(maps != "false", sourcemaps.write(sourcemapsOutput)))
-        .pipe(gulp.dest(output));
+    for (var i = 0; i < endings.length; i++) {
+        var tempFileName = filename + endings[i];
+        gulp.src(packagesArray)
+            .pipe(concat('concat.txt'))
+            .pipe(gulpif(maps != "false" && endings[i] != ".scss", sourcemaps.init()))
+            .pipe(sass({ outputStyle: compress }).on('error', sass.logError))
+            .pipe(rename(tempFileName))
+            .pipe(gulpif(maps != "false" && endings[i] != ".scss", sourcemaps.write(sourcemapsOutput)))
+            .pipe(gulp.dest(output));
 
-    if (!zip) {
-        return;
+        if (!zip) {
+            continue;
+        }
+
+        gulp.src(packagesArray)
+            .pipe(concat('concat.txt'))
+            .pipe(gulpif(maps != "false" && endings[i] != ".scss", sourcemaps.init()))
+            .pipe(sass({ outputStyle: compress }).on('error', sass.logError))
+            .pipe(rename(tempFileName))
+            .pipe(gulpif(maps != "false" && endings[i] != ".scss", sourcemaps.write(sourcemapsOutput)))
+            .pipe(gzip())
+            .pipe(gulp.dest(output));
     }
 
-    return gulp.src(packagesArray)
-        .pipe(concat('concat.txt'))
-        .pipe(gulpif(maps != "false", sourcemaps.init()))
-        .pipe(sass({ outputStyle: compress }).on('error', sass.logError))
-        .pipe(rename(filename))
-        .pipe(gulpif(maps != "false", sourcemaps.write(sourcemapsOutput)))
-        .pipe(gzip())
-        .pipe(gulp.dest(output));
+    return;
 });
 
-gulp.task('sass:clean', function () {    
+gulp.task('sass:clean', function () {
     var shouldclean = getParam("clean");
-    if(shouldclean == "false"){
+    if (shouldclean == "false") {
         return;
     }
 
