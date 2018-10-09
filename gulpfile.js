@@ -9,6 +9,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var log = require('fancy-log');
 var rename = require('gulp-rename');
 var concat = require('gulp-concat');
+var del = require('del');
 
 gulp.task('sass', ['sass:clean'], function () {
     var output = getPath();
@@ -18,15 +19,18 @@ gulp.task('sass', ['sass:clean'], function () {
     var compress = getParam("compress");
     var filename = getParam("filename");
 
+    var forcedEnding;
     var endings = [".css", ".scss"];
     if (!filename) {
         filename = "fluent-css";
     }
     else if (filename.indexOf(".scss") > -1) {
-        endings = [".scss"];
+        filename = filename.replace(".scss", "");
+        forcedEnding = ".scss";
     }
     else if (filename.indexOf(".css") > -1) {
-        endings = [".css"];
+        filename = filename.replace(".css", "");
+        forcedEnding = ".css";
     }
 
     if (compress != "false") {
@@ -48,26 +52,25 @@ gulp.task('sass', ['sass:clean'], function () {
 
     for (var i = 0; i < endings.length; i++) {
         var tempFileName = filename + endings[i];
-        gulp.src(packagesArray)
-            .pipe(concat('concat.txt'))
-            .pipe(gulpif(maps != "false" && endings[i] != ".scss", sourcemaps.init()))
-            .pipe(sass({ outputStyle: compress }).on('error', sass.logError))
-            .pipe(rename(tempFileName))
-            .pipe(gulpif(maps != "false" && endings[i] != ".scss", sourcemaps.write(sourcemapsOutput)))
-            .pipe(gulp.dest(output));
 
-        if (!zip) {
-            continue;
+        if (zip && endings[i] == ".css") {
+            gulp.src(packagesArray)
+                .pipe(concat('concat.txt'))
+                .pipe(sass({ outputStyle: compress }).on('error', sass.logError))
+                .pipe(rename(filename + ".css"))
+                .pipe(gzip())
+                .pipe(gulp.dest(output));
         }
-
+        
         gulp.src(packagesArray)
             .pipe(concat('concat.txt'))
             .pipe(gulpif(maps != "false" && endings[i] != ".scss", sourcemaps.init()))
             .pipe(sass({ outputStyle: compress }).on('error', sass.logError))
             .pipe(rename(tempFileName))
             .pipe(gulpif(maps != "false" && endings[i] != ".scss", sourcemaps.write(sourcemapsOutput)))
-            .pipe(gzip())
-            .pipe(gulp.dest(output));
+            .pipe(gulp.dest(output))
+            .pipe(gulpif(forcedEnding == ".scss" && endings[i] != ".scss", clean({ read: false, force: true })))
+            .pipe(gulpif(forcedEnding == ".css" && endings[i] != ".css", clean({ read: false, force: true })));
     }
 
     return;
@@ -80,7 +83,8 @@ gulp.task('sass:clean', function () {
     }
 
     var output = getPath();
-    return gulp.src(output + '*.scss*').pipe(clean({ read: false, force: true }));
+    gulp.src(output + '/*.scss*').pipe(clean({ read: false, force: true }));
+    return gulp.src(output + '/*.css*').pipe(clean({ read: false, force: true }));
 });
 
 gulp.task('sass:watch', () => gulp.watch('./**/*.scss', ['sass']));
