@@ -21,22 +21,34 @@ $borderstyles:
             border: $i#{$unit};
         }   
 
-            @each $color in $colornames { // red, green, blue...
-                .border-#{$i}-#{$color} {  // border-left-solid-1-green
-                    border: $i#{$unit} $color;
-                }
-    
-                @each $style in $borderstyles { //top, left ..
-                    .border-#{$style}-#{$i}-#{$color} {  // border-left-solid-1-green
-                        border: $style $i#{$unit} $color;
-                    }                
-                }        
+        @each $style in $borderstyles { //top, left ..
+            .border-#{$style}-#{$i} {  // border-left-solid-1-green
+                border: $style $i#{$unit};
+            }                
+        }   
+
+        @each $color in $colornames { // red, green, blue...
+            .border-#{$i}-#{$color} {  // border-left-solid-1-green
+                border: $i#{$unit} $color;
             }
+    
+            @each $style in $borderstyles { //top, left ..
+                .border-#{$style}-#{$i}-#{$color} {  // border-left-solid-1-green
+                    border: $style $i#{$unit} $color;
+                }                
+            }        
+        }
 
                 // with directions
         @each $direction in $directions { //top, left ...  
             .border-#{$direction}-#{$i} {  // border-left-solid-1-green
                 border-#{$direction}: $i#{$unit};
+            }
+
+            @each $style in $borderstyles { //top, left ..
+                .border-#{$direction}-#{$style}-#{$i} {  // border-left-solid-1-green
+                    border-#{$direction}: $style $i#{$unit};                        
+                }
             }
 
             @each $color in $colornames { // red, green, blue...    
