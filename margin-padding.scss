@@ -16,41 +16,20 @@ $prefixes: (padding, margin);
                 $value: $i;
                 $firstPrefixLetter: str-slice($prefix, 1, 1); // m or p
                 @if($i < 0) {
-                    $value: #{"neg-"}#{str-slice(#{$value}, 2)}; // removve minus from classname
+                    $value: #{"neg-"}#{str-slice(#{$value}, 2)}; // remove minus from classname
                 }
 
                 @if(($prefix != padding and $i < 0) or ($i >= 0)) { // negative values are invalid for padding
-                    &.#{$firstPrefixLetter}b-#{$value} { // .pb-1 or .pb-100 ...
-                        #{$prefix}-bottom: #{$i}#{$readableUnit} // padding-bottom: 1px or margin-bottom: 1px
-                    }
-
-                        &.#{$firstPrefixLetter}b-#{$value}-important { // .mb-1-important or .mb-100-important ...
-                            #{$prefix}-bottom: #{$i}#{$readableUnit} !important;
+                    @each $direction in $directions {
+                        $firstLetterDirection: str-slice($direction, 1, 1); // m or p
+                        &.#{$firstPrefixLetter}#{$firstLetterDirection}-#{$value} { // .pb-1 or .pb-64 ...
+                            #{$prefix}-#{$direction}: #{$i}#{$readableUnit} // padding-bottom: 1px or margin-bottom: 1px
+                        } 
+                        
+                        &.#{$firstPrefixLetter}#{$firstLetterDirection}-#{$value}-important { 
+                            #{$prefix}-#{$direction}: #{$i}#{$readableUnit} 
                         }
-
-                    &.#{$firstPrefixLetter}t-#{$value} {
-                        #{$prefix}-top: #{$i}#{$readableUnit};
                     }
-
-                        &.#{$firstPrefixLetter}t-#{$value}-important {
-                            #{$prefix}-top: #{$i}#{$readableUnit} !important;
-                        }
-
-                    &.#{$firstPrefixLetter}l-#{$value} {
-                        #{$prefix}-left: #{$i}#{$readableUnit};
-                    }
-
-                        &.#{$firstPrefixLetter}l-#{$value}-important {
-                            #{$prefix}-left: #{$i}#{$readableUnit} !important;
-                        }
-
-                    &.#{$firstPrefixLetter}r-#{$value} {
-                        #{$prefix}-right: #{$i}#{$readableUnit};
-                    }
-
-                        &.#{$firstPrefixLetter}r-#{$value}-important {
-                            #{$prefix}-right: #{$i}#{$readableUnit} !important;
-                        }
 
                     &.#{$firstPrefixLetter}-#{$value} {
                         #{$prefix}: #{$i}#{$readableUnit};
