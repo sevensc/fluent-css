@@ -1,9 +1,14 @@
 ﻿
+## Navigate in the package folder
+`cd node_modules/fluent-css`
+
+## Install dependencies
+`npm install`
+
 ## Create css files
 `npm run build`
 
 ## Customize output folder
-
 `npm run build --  --output='../css'`
 
 ## Start sass watch (not active by default)
@@ -46,9 +51,9 @@
 
 
 # Usage of fluent-css 
- ## to import fluent-css, simply copy this line in your scss stylesheet
+ ## to import fluent-css, simply copy this line in your scss stylesheet (or the name you specified)
 ```scss
-@import 'fluent-css'; // absolute path from your stylesheet e.g. -> ./sass/fluent-styles/fluent-styles;
+@import 'fluent-css'; // absolute path from your stylesheet e.g. -> ./sass/fluent-styles/fluent-styles, ('node_modules/fluent-css/dist/fluent-css' if default)
 ```
 
 ## padding and margin
@@ -85,12 +90,71 @@
 </div>
 ```
 
-## Packages
-```scss
-- margin-padding.scss,
-- position.scss,
-- z-index.scss,
+## Packages (Work in Progress)
+
+- margin-padding.scss
+- border.scss
+- position.scss
 - display.scss
+- z-index.scss
+
+
+# Available Classes
+## margin-padding.scss
+```scss
+// units: em, px, percent, ex
+
+.margin-px.m-1 // margin: 1px
+
+.margin-px.mb-1 // margin-bottom: 1px; mb, mt, ml, mr 
+.margin-percent.mb-1  // up to 64 .mb-64
+.padding-px.mb-1
+
+// !important
+.margin-px.mb-1-important
+
+// negative (not valid for padding!)
+.margin-px.mb-neg-1
+```
+
+## border.scss
+```scss
+// dotted, dashed, solid, double, groove, ridge, inset, outset, thin, medium, thick, initial, inherit 
+
+.border-1
+.border-solid
+.border-solid-1 // (1-5)
+.border-solid-thin
+.border-solid-thin-green // 140 colors
+.border-left-1
+.border-left-solid
+.border-left-solid-1-green
+```
+
+## position.scss
+```scss
+
+// static, absolute, fixed, relative, sticky, initial, inherit
+.position-absolute
+.position-absolut-important
+
+// units: em, px, percent, ex
+.position-px.top-1 // top: 1px
+
+```
+## display.scss
+```scss
+/*
+inline, block, contents, flex, grid, inline-block, inline-flex, inline-grid, inline-table, list-item, run-in, table, table-caption, table-column-group, table-header-group, table-footer-group, table-row-group, table-cell, table-column, table-row, none, initial, inherit
+*/
+.display-inline
+.display-inline-important
+```
+
+## z-index.scss
+```scss
+.z-index-0 // 0-64
+.z-index-0-important
 ```
 
 # Example for margin
