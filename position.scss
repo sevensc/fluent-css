@@ -24,12 +24,11 @@ $directions: (top, right, bottom, left);
 
         .position-#{$unit} {
             @each $direction in $directions {
-                $d: str-slice($direction, 1, 1); // p
-                &.p#{$d}-#{$value} {
-                    #{$direction}: #{$i}#{$readableUnit}; // .pr-20 -> right: 20;
+                &.#{$direction}-#{$value} {
+                    #{$direction}: #{$i}#{$readableUnit}; // .right-20 -> right: 20;
                 }
 
-                &.p#{$d}-#{$value}-important {
+                &.#{$direction}-#{$value}-important {
                     #{$direction}: #{$i}#{$readableUnit} !important;
                 }
             }
