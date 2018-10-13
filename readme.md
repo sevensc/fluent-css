@@ -90,19 +90,20 @@
 </div>
 ```
 
-## Packages (Work in Progress)
+# Packages (Work in Progress)
 
 - margin-padding.scss
 - border.scss
 - position.scss
 - display.scss
 - z-index.scss
+- font.scss
 
 
 # Available Classes
 ## margin-padding.scss
 ```scss
-// units: em, px, percent, ex
+// units: rem, em, px, percent
 
 .margin-px.m-1 // margin: 1px
 
@@ -138,7 +139,7 @@
 .position-absolute
 .position-absolut-important
 
-// units: em, px, percent, ex
+// units: rem, em, px, percent
 .position-px.top-1 // top: 1px
 
 ```
@@ -156,6 +157,18 @@ inline, block, contents, flex, grid, inline-block, inline-flex, inline-grid, inl
 .z-index-0 // 0-64
 .z-index-0-important
 ```
+
+## font.scss
+```scss
+// units: rem, em, px, percent
+
+.font-size-px.font-size-1;
+.font-size-percent.font-size-5; // 0, 5, 10... steps of 5 on percent
+.font-weight-bold // 100-900, lighter, bold, bolder, normal
+.font-color-green
+.font-style-italic // normal, italic, oblique, initial, inherit
+```
+# Work in progress
 
 # Example for margin
 ![alt text](./img/margin.gif)

@@ -1,0 +1,93 @@
+@import 'variables/colors';
+@import 'variables/units';
+@import 'variables/count';
+@import 'functions/readabletocssunit';
+
+@each $unit in $units {
+    @if($unit != 'percent'){
+        .font-size-#{$unit} {
+        
+            @for $i from 0 through $count {
+
+                &.font-size-#{$i} {
+                    font-size: $i#{readabletocssunit($unit)};
+                }
+
+                    &.font-size-#{$i}-important {
+                        font-size: $i#{readabletocssunit($unit)} !important;
+                    }
+            }
+        }
+    }
+}
+
+.font-size-percent {
+    @for $i from 0 through 200 {
+        @if $i % 10 == 0 {
+            &.font-size-#{$i} {
+                font-size: $i#{'%'};
+            } 
+            
+                &.font-size-#{$i}-important {
+                    font-size: $i#{'%'} !important;
+                }
+        }
+    }
+ }
+
+ $weights:
+ (
+    lighter,
+    normal,
+    bold, 
+    bolder,
+    inherit,
+    initial,
+    100,
+    200,
+    300,
+    400,
+    500, // normal
+    600,
+    700,
+    800, // bold
+    900
+ );
+
+ @each $weight in $weights {
+     .font-weight-#{$weight} {
+         font-weight: $weight;
+     }
+        .font-weight-#{$weight} {
+            font-weight: $weight !important;
+        }
+ }
+
+ @each $color in $colornames {
+     .font-color-#{$color} {
+         color: $color;
+     }
+
+        .font-color-#{$color}-important {
+            color: $color !important;
+        }
+ }
+
+ $font-styles:
+ (
+    normal,
+    italic,
+    oblique,
+    initial,
+    inherit
+ );
+ 
+ @each $style in $font-styles {
+    .font-style-#{$style} {
+        font-style: $style;
+    }
+
+       .font-style-#{$style}-important {
+           font-style: $style !important;
+       }
+}

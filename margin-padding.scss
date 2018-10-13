@@ -1,17 +1,14 @@
 ﻿@import 'variables/units';
 @import 'variables/count';
 @import 'variables/directions';
+@import 'functions/readabletocssunit';
+
 $prefixes: (padding, margin);
 
 @each $prefix in $prefixes {
     @each $unit in $units {
         .#{$prefix}-#{$unit} { // .padding-px or .margin-px/.padding-em or .margin-em ...
             @for $i from -$count through $count {
-                $readableUnit: $unit;
-
-                @if($unit == "percent") { // px, percent, em, rem, pt
-                    $readableUnit: '%';
-                }
 
                 $value: $i;
                 $firstPrefixLetter: str-slice($prefix, 1, 1); // m or p
@@ -23,20 +20,20 @@ $prefixes: (padding, margin);
                     @each $direction in $directions {
                         $firstLetterDirection: str-slice($direction, 1, 1); // m or p
                         &.#{$firstPrefixLetter}#{$firstLetterDirection}-#{$value} { // .pb-1 or .pb-64 ...
-                            #{$prefix}-#{$direction}: #{$i}#{$readableUnit} // padding-bottom: 1px or margin-bottom: 1px
+                            #{$prefix}-#{$direction}: #{$i}#{readabletocssunit($unit)} // padding-bottom: 1px or margin-bottom: 1px
                         } 
                         
                         &.#{$firstPrefixLetter}#{$firstLetterDirection}-#{$value}-important { 
-                            #{$prefix}-#{$direction}: #{$i}#{$readableUnit} 
+                            #{$prefix}-#{$direction}: #{$i}#{readabletocssunit($unit)}
                         }
                     }
 
                     &.#{$firstPrefixLetter}-#{$value} {
-                        #{$prefix}: #{$i}#{$readableUnit};
+                        #{$prefix}: #{$i}#{readabletocssunit($unit)};
                     }
     
                         &.#{$firstPrefixLetter}-#{$value}-important {
-                            #{$prefix}: #{$i}#{$readableUnit} !important;
+                            #{$prefix}: #{$i}#{readabletocssunit($unit)} !important;
                         }
                 }
             }

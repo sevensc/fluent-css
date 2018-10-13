@@ -1,0 +1,7 @@
+@function readabletocssunit($unit) {
+   @if($unit == 'percent') {
+        @return '%';
+   }
+
+   @return $unit;
+}
