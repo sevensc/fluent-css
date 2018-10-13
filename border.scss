@@ -99,7 +99,7 @@ $borderstyles:
             }
 
             .border-#{$direction}-#{$width} {  // border-left-1
-                border-#{$direction}-#{$direction}: $width#{$unit};
+                border-#{$direction}: $width#{$unit};
             }   
 
             @each $style in $borderstyles { //top, left ..
