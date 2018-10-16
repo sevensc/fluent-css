@@ -1,0 +1,12 @@
+{
+    "output": "./fluent-css",
+    "filename": "fluent-css",
+    "compress": true,
+    "outputtype": "css",
+    "gzip": true,
+    "sourcemaps": true,
+    "watch": false,
+    "packages": [
+        "fluent-css"
+    ]
+}

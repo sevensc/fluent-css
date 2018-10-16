@@ -5,55 +5,16 @@
 ## Install dependencies
 `npm install`
 
+## Create the `fluent-css.json` for your personal settings (will be created in your project-root)
+`npm run init`
+
 ## Create css files
 `npm run build`
-
-## Customize output folder
-`npm run build --  --output='../css'`
-
-## Start sass watch (not active by default)
-`npm run build -- --watch`
-
-## Or just start watching (with all paramters e.g. --gzip)
-`npm run watch`
-
-## Deactivate sourcemaps default is true
-`npm run build -- --sourcemaps=false`
-
-## Deactivate compression
-`npm run build -- --compress=false`
-
-## Build with gzip
-`npm run build -- --gzip`
-
-## Or start gzipping (with all paramters e.g. --package)
-`npm run gzip -- --clean=false`
-
-## Change output filename
-`npm run build -- --filename=main.css`
-
-`npm run build -- --filename=main.scss`
-
-`npm run build -- --filename=main`
-### adding `.css` will only create css files. Adding `.scss` will only create scss files, filename without ending will create both, scss and css files.
-
-## Too much? Limit to the packages you need
-`npm run build -- --packages='display, position'`
-
-## Deactivate clean
-`npm run build -- --clean=false`
-
-## Or just clean up
-`npm run clean`
-
-# Combine them!
-`npm run build -- --gzip --compress=false --souremap=false --ouput=../ filename=main.css`
-
 
 # Usage of fluent-css 
  ## to import fluent-css, simply copy this line in your scss stylesheet (or the name you specified)
 ```scss
-@import 'fluent-css'; // absolute path from your stylesheet e.g. -> ./sass/fluent-styles/fluent-styles, ('node_modules/fluent-css/dist/fluent-css' if default)
+@import 'fluent-css'; // absolute path from your stylesheet e.g. -> ./fluent-css/fluent-css by default
 ```
 
 ## padding and margin
@@ -175,3 +136,46 @@ inline, block, contents, flex, grid, inline-block, inline-flex, inline-grid, inl
 
 # Example for padding
 ![alt text](./img/position.gif)
+
+
+# #I recommend to use `fluent-css.json`, but you can manually overwrite the settings like this.
+## Customize output folder (from you project root)
+`npm run build --  --output='./css'`
+
+## Start sass watch (not active by default)
+`npm run build -- --watch`
+
+## Or just start watching (with all paramters e.g. --gzip)
+`npm run watch`
+
+## Deactivate sourcemaps default is true
+`npm run build -- --sourcemaps=false`
+
+## Deactivate compression
+`npm run build -- --compress=false`
+
+## Build with gzip
+`npm run build -- --gzip`
+
+## Or start gzipping (with all paramters e.g. --package)
+`npm run gzip -- --clean=false`
+
+## Change output filename
+`npm run build -- --filename=main.css`
+
+`npm run build -- --filename=main.scss`
+
+`npm run build -- --filename=main`
+### adding `.css` will only create css files. Adding `.scss` will only create scss files, filename without ending will create both, scss and css files.
+
+## Too much? Limit to the packages you need
+`npm run build -- --packages='display, position'`
+
+## Deactivate clean
+`npm run build -- --clean=false`
+
+## Or just clean up
+`npm run clean`
+
+# Combine them!
+`npm run build -- --gzip --compress=false --souremap=false --ouput=./css filename=main`

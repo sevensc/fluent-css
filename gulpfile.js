@@ -9,68 +9,79 @@ var sourcemaps = require('gulp-sourcemaps');
 var log = require('fancy-log');
 var rename = require('gulp-rename');
 var concat = require('gulp-concat');
-var del = require('del');
+var copy = require('gulp-copy');
+var config = {
+    output: "./fluent-css",
+    filename: "fluent-css",
+    outputtype: "css",
+    compress: true,
+    gzip: true,
+    sourcemaps: true,
+    packages: [
+        "fluent-css"
+    ]
+};
+
+
+gulp.task('init', function () {
+    return gulp
+        .src(['./fluent-css.json'])
+        .pipe(copy("../../", {}));
+});
 
 gulp.task('sass', ['sass:clean'], function () {
-    var output = getPath();
-    var watch = getParam("watch");
-    var maps = getParam("sourcemaps");
-    var zip = getParam("gzip");
-    var compress = getParam("compress");
-    var filename = getParam("filename");
+    var config = getConfig();
 
     var forcedEnding;
     var endings = [".css", ".scss"];
-    if (!filename) {
-        filename = "fluent-css";
+    if (!config.filename) {
+        config.filename = "fluent-css";
     }
-    else if (filename.indexOf(".scss") > -1) {
-        filename = filename.replace(".scss", "");
+    else if (config.filename.indexOf(".scss") > -1) {
+        config.filename = config.filename.replace(".scss", "");
         forcedEnding = ".scss";
     }
-    else if (filename.indexOf(".css") > -1) {
-        filename = filename.replace(".css", "");
+    else if (config.filename.indexOf(".css") > -1) {
+        config.filename = config.filename.replace(".css", "");
         forcedEnding = ".css";
     }
 
-    if (compress != "false") {
-        compress = "compressed";
+    if (config.compress != "false") {
+        config.compress = "compressed";
     }
 
-    if (watch) {
-        gulp.start("sass:watch")
+    if (config.watch) {
+        gulp.start("sass:watch");
     }
 
-    var packagesArray = getPackages();
-    var sourcemapsOutput = output;
-    if (sourcemapsOutput.indexOf('./') == 0) {
-        sourcemapsOutput = "." + sourcemapsOutput;
-    }
-    else if (sourcemapsOutput.indexOf('../') == 0) {
-        sourcemapsOutput = "./" + output.replace("../", "");
-    }
+    var sourcemapsOutput = "../" + config.output;
+
 
     for (var i = 0; i < endings.length; i++) {
-        var tempFileName = filename + endings[i];
+        var tempFileName = config.filename + endings[i];
 
-        if (zip && endings[i] == ".css") {
-            gulp.src(packagesArray)
+        if (config.gzip && endings[i] == ".css") {
+            gulp.src(config.packages)
                 .pipe(concat('concat.txt'))
-                .pipe(sass({ outputStyle: compress }).on('error', sass.logError))
-                .pipe(rename(filename + ".css"))
+                .pipe(sass({ outputStyle: config.compress }).on('error', sass.logError))
+                .pipe(rename(config.filename + ".css"))
                 .pipe(gzip())
-                .pipe(gulp.dest(output));
+                .pipe(gulp.dest(config.output));
+
+            log("created " + tempFileName + ".gz" + " successfuly to " + config.output);
         }
-        
-        gulp.src(packagesArray)
+
+        gulp.src(config.packages)
             .pipe(concat('concat.txt'))
-            .pipe(gulpif(maps != "false" && endings[i] != ".scss", sourcemaps.init()))
-            .pipe(sass({ outputStyle: compress }).on('error', sass.logError))
+            .pipe(gulpif(config.maps != "false" && endings[i] != ".scss", sourcemaps.init()))
+            .pipe(sass({ outputStyle: config.compress }).on('error', sass.logError))
             .pipe(rename(tempFileName))
-            .pipe(gulpif(maps != "false" && endings[i] != ".scss", sourcemaps.write(sourcemapsOutput)))
-            .pipe(gulp.dest(output))
+            .pipe(gulpif(config.maps != "false" && endings[i] != ".scss", sourcemaps.write(sourcemapsOutput)))
+            .pipe(gulp.dest(config.output))
             .pipe(gulpif(forcedEnding == ".scss" && endings[i] != ".scss", clean({ read: false, force: true })))
             .pipe(gulpif(forcedEnding == ".css" && endings[i] != ".css", clean({ read: false, force: true })));
+
+        log("created " + tempFileName + " successfuly to " + config.output);
     }
 
     return;
@@ -78,7 +89,7 @@ gulp.task('sass', ['sass:clean'], function () {
 
 gulp.task('sass:clean', function () {
     var shouldclean = getParam("clean");
-    if (shouldclean == "false") {
+    if (shouldclean === "false") {
         return;
     }
 
@@ -93,7 +104,7 @@ var getPackages = function () {
     var packages = getParam("packages");
 
     if (!packages) {
-        return ['fluent-css.scss']
+        return [];
     }
 
     var packagesArray = [];
@@ -108,15 +119,25 @@ var getPackages = function () {
     }
 
     return packagesArray;
-}
+};
 
 var getPath = function () {
+    var jsonConfig = tryRequire('../../fluent-css.json');
     var output = getParam('output');
+    if (jsonConfig && jsonConfig.output) {
+        var tempConfig = jsonConfig;
+        if (tempConfig.output.indexOf("./") === 0) {
+            tempConfig.output = tempConfig.output.replace("./", "");
+        }
+
+        output = "../../" + tempConfig.output; // navigate from node_modules
+    }
+
     if (!output) {
-        return './dist'
+        return '../../fluent-css';
     }
     return output;
-}
+};
 
 var getParam = function (param) {
     for (var i = 0; i < process.argv.length; i++) {
@@ -132,4 +153,76 @@ var getParam = function (param) {
     }
 
     return false;
-}
+};
+
+var tryRequire = function (filepath) {
+    try {
+        return require(filepath);
+    }
+    catch (e) {
+        return null;
+    }
+};
+
+var getConfig = function () {
+    var jsonConfig = tryRequire('../../fluent-css.json');
+    var output;
+    if (jsonConfig) {
+        config = jsonConfig;
+        if (config.output) {
+            config.output = "../../" + config.output; // navigate from node_modules
+        }
+        if (config.filename && config.outputtype) {
+            config.filename += "." + config.outputtype;
+        }
+    }
+
+    output = getParam('output');
+    var watch = getParam("watch");
+    var maps = getParam("sourcemaps");
+    var zip = getParam("gzip");
+    var compress = getParam("compress");
+    var filename = getParam("filename");
+    var packages = getPackages();
+
+    if (output) {
+        config.output = "../../" + output;
+    }
+    if (watch) {
+        config.watch = watch;
+    }
+    if (maps) {
+        config.maps = maps;
+    }
+    if (zip) {
+        config.gzip = zip;
+    }
+    if (compress) {
+        config.compress = compress;
+    }
+    if (filename) {
+        config.filename = filename;
+    }
+    if (packages.length > 0) {
+        config.packages = packages;
+    }
+    else if (config.packages) {
+        var tempPackages = [];
+        for (var i = 0; i < config.packages.length; i++) {
+            var current = config.packages[i];
+            if (current.indexOf(".scss") < 0) {
+                tempPackages.push(current + ".scss");
+            }
+            else {
+                tempPackages.push(current);
+            }
+        }
+        config.packages = tempPackages;
+    }
+
+    if (config.output.indexOf("./") === 0) {
+        config.output = config.output.replace("./", "");
+    }
+
+    return config;
+};
