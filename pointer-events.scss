@@ -1,0 +1,23 @@
+$events: (
+    auto, 
+    none,
+    visiblePainted,
+    visibleFill,
+    visibleStroke,
+    visible,
+    painted,
+    fill,
+    stroke,
+    all,
+    inherit,
+    initial,
+    unset);
+
+@each $event in $events {
+    .pointer-events-#{to-lower-case($event)} {
+        pointer-events: $event;
+    }
+    .pointer-events-#{to-lower-case($event)}-important {
+        pointer-events: $event !important;
+    }
+}

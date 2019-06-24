@@ -3,13 +3,22 @@
 `cd node_modules/fluent-css`
 
 ## Install dependencies
-`npm install`
+```scss 
+// ../node_modules/fluent-css 
+npm install
+```
 
-## Create the `fluent-css.json` for your personal settings (will be created in your project-root)
-`npm run init`
+## Create the `fluent-css.json` for your personal settings (will be created in your project-root)```scss 
+```scss
+// ../node_modules/fluent-css 
+npm run init
+```
 
 ## Create css files
-`npm run build`
+```scss
+// ../node_modules/fluent-css 
+npm run build
+```
 
 # Usage of fluent-css 
  ## to import fluent-css, simply copy this line in your scss stylesheet (or the name you specified)
@@ -59,6 +68,7 @@
 - display.scss
 - z-index.scss
 - font.scss
+- pointer-events.scss
 
 
 # Available Classes
