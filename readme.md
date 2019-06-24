@@ -8,7 +8,7 @@
 npm install
 ```
 
-## Create the `fluent-css.json` for your personal settings (will be created in your project-root)```scss 
+## Create the `fluent-css.json` for your personal settings (will be created in your project-root)
 ```scss
 // ../node_modules/fluent-css 
 npm run init
